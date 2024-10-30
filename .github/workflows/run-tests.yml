@@ -1,13 +1,10 @@
-name: run-tests
+name: Tests
 
 on:
   push:
-    paths:
-      - '**.php'
-      - '.github/workflows/run-tests.yml'
-      - 'phpunit.xml.dist'
-      - 'composer.json'
-      - 'composer.lock'
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   test:
@@ -16,7 +13,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest]
         php: [8.3, 8.2]
         laravel: [11.*, 10.*]
         stability: [prefer-lowest, prefer-stable]
@@ -28,7 +25,7 @@ jobs:
             testbench: 8.*
             carbon: ^2.63
 
-    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
+    name: PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }} / ${{ matrix.stability }} / ${{ matrix.os }}
 
     steps:
       - name: Checkout code
